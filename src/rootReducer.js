@@ -5,9 +5,9 @@ const initialState = {
   id: 0
 }
 
-export default function rootReducer(state=initialState, action) {
+export default function rootReducer(state=initialState, action) {  
   switch (action.type) {
-    case ADD_TODO:      
+    case ADD_TODO:
       var newState = {...state};
       newState.id++
       return{

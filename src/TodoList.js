@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Todo from './Todo';
 import {connect} from 'react-redux';
+import { addTodo, removeTodo } from './actionCreator';
 
 class TodoList extends Component {
   constructor(props) {
@@ -10,18 +11,22 @@ class TodoList extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    //this.removeTodo = this.removeTodo.bind(this);
   }
 
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.dispatch({
-      type: 'ADD_TODO',
-      task: this.state.task
-    });
-    this.setState({
-      task: ''
-    });
+    if(this.state.task === ''){
+      return
+    } else {
+      this.props.addTodo(this.state.task);
+      e.target.reset();
+      this.setState({
+        task: ''
+      });
+    }
+
   }
 
   handleChange(e) {
@@ -30,9 +35,16 @@ class TodoList extends Component {
     });
   }
 
+  removeTodo(id){
+    this.props.removeTodo(id);
+  }
+
   render() {    
     let todos = this.props.todos.map((task, index) => (
-      <Todo task={task} key={index} />
+      <Todo
+        removeTodo={this.removeTodo.bind(this, task.id)}
+        task={task}
+        key={index} />
     ));
 
     return (
@@ -59,6 +71,8 @@ function mapStateToProps(reduxState) {
     todos: reduxState.todos
   }
 }
+
+
 //any time we connect redux to a component we access to the dispacth fn from
 //store
-export default connect(mapStateToProps)(TodoList);
+export default connect(mapStateToProps,{addTodo, removeTodo})(TodoList);
