@@ -1,5 +1,2 @@
-const USER_NAME = 'admin';
-const USER_PASSWORD = 'Tarpon101';
-
-exports.USER_NAME = USER_NAME;
-exports.USER_PASSWORD = USER_PASSWORD;
+exports.USER_NAME ='user_name';
+exports.USER_PASSWORD ='user_password';
