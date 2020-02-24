@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Todo from './Todo';
 import NewTodoForm from './NewTodoForm';
 import {connect} from 'react-redux';
-import { addTodo, removeTodo } from './actionCreator';
+import { addTodo, removeTodo, getTodos } from './actionCreator'; //async thunks
 import './TodoList.css';
 import { Route } from 'react-router-dom';
 
@@ -12,6 +12,11 @@ class TodoList extends Component {
     this.handleAdd = this.handleAdd.bind(this);
 
   }
+// when component loads we want to go to our database and get our todos
+componentDidMount() {
+  this.props.getTodos();
+}
+
 
   handleAdd(val) {
     this.props.addTodo(val);
@@ -23,11 +28,11 @@ class TodoList extends Component {
   }
 
   render() {
-    let todos = this.props.todos.map((task, index) => (
+    let todos = this.props.todos.map((task) => (
       <Todo
-        removeTodo={this.removeTodo.bind(this, task.id)}
+        removeTodo={this.removeTodo.bind(this, task._id)}
         task={task}
-        key={index} />
+        key={task._id} />
     ));
 
     return (
@@ -56,4 +61,4 @@ function mapStateToProps(reduxState) {
 
 //any time we connect redux to a component we have access to the dispacth fn from
 //store
-export default connect(mapStateToProps, {addTodo, removeTodo})(TodoList);
+export default connect(mapStateToProps, { addTodo, removeTodo, getTodos })(TodoList);

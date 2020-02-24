@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# user information
+todo.backend.config.js
+
 # production
 /build
 
